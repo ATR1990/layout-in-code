@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         label.textAlignment = .center
         label.numberOfLines = 5
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -26,9 +27,11 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .green
         button.clipsToBounds = true
+        button.layer.cornerRadius = 5
         button.setTitle("Touch me!", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(ourButtonPressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
@@ -37,8 +40,10 @@ class ViewController: UIViewController {
         let textField = UITextField()
         textField.textColor = .white
         textField.textAlignment = .center
+        textField.layer.cornerRadius = 5
         textField.placeholder = "Type your text here..."
         textField.backgroundColor = .systemBlue
+        textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
     }()
@@ -48,8 +53,10 @@ class ViewController: UIViewController {
         let highlightedImage = UIImage(named: "together")
         let imageView = UIImageView(image: image, highlightedImage: highlightedImage)
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 20
         imageView.backgroundColor = .systemGreen
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
@@ -61,6 +68,7 @@ class ViewController: UIViewController {
         stack.distribution = .fillProportionally
         stack.spacing = 30
         stack.addArrangedSubview(imageView)
+        stack.translatesAutoresizingMaskIntoConstraints = false
         
         return stack
     }()
@@ -77,21 +85,68 @@ class ViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(ourButton)
+        view.addSubview(label)
+        view.addSubview(ourTextField)
+        view.addSubview(stack)
     }
+
     
     private func setupLayout() {
+        // Constraints for stack
         NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: ourTextField.bottomAnchor, constant: 20),
+            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        // Constraints for label
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        // Constraints for ourTextField
+        NSLayoutConstraint.activate([
+            ourTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20),
+            ourTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            ourTextField.widthAnchor.constraint(equalToConstant: 300),
+            ourTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        // Constraints for imageView
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 300),
+            imageView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+        
+        // Constraints for ourButton
+        NSLayoutConstraint.activate([
+            ourButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
             ourButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            ourButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            ourButton.widthAnchor.constraint(equalToConstant: 250),
-            ourButton.heightAnchor.constraint(equalToConstant: 70)
+            ourButton.widthAnchor.constraint(equalToConstant: 300),
+            ourButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+
 
     // MARK: - Actions
     
     @objc private func ourButtonPressed() {
         label.textColor = getRandomColor()
+        
+        if ourTextField.text != "" {
+            label.text = ourTextField.text
+            
+            if label.text == "Jobs" {
+                imageView.isHighlighted = false
+            } else if label.text?.lowercased() == "Wozniak".lowercased() {
+                imageView.isHighlighted = true
+            } else {
+                imageView.isHighlighted = false
+            }
+            
+            ourTextField.text = ""
+        }
     }
     
     func getRandomColor() -> UIColor {
