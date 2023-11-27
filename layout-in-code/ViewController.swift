@@ -92,35 +92,27 @@ class ViewController: UIViewController {
 
     
     private func setupLayout() {
-        // Constraints for stack
         NSLayoutConstraint.activate([
+            // Constraints for stack
             stack.topAnchor.constraint(equalTo: ourTextField.bottomAnchor, constant: 20),
             stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        // Constraints for label
-        NSLayoutConstraint.activate([
+            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            // Constraints for label
             label.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        // Constraints for ourTextField
-        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            // Constraints for ourTextField
             ourTextField.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20),
             ourTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             ourTextField.widthAnchor.constraint(equalToConstant: 300),
-            ourTextField.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        // Constraints for imageView
-        NSLayoutConstraint.activate([
+            ourTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            // Constraints for imageView
             imageView.widthAnchor.constraint(equalToConstant: 300),
-            imageView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-        
-        // Constraints for ourButton
-        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            
+            // Constraints for ourButton
             ourButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 20),
             ourButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             ourButton.widthAnchor.constraint(equalToConstant: 300),
